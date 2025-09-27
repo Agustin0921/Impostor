@@ -198,7 +198,26 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
     text-align: left;
 }
 
+.volver-container {
+    text-align: center;
+    margin-top: 15px;
+}
 
+.volver-container button {
+    background: #444;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.volver-container button:hover {
+    background: rgba(0, 180, 255, 0.15); /* celeste suave */
+    border: 1px solid #00d4ff;
+    color: #00d4ff;
+}
 
 .oculto { 
     display: none !important; 
@@ -573,6 +592,22 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
     color: #fff;
     font-weight: bold;
     cursor: pointer;
+}
+
+/* Centrar los inputs y botones en PC */
+@media (min-width: 769px) {
+    .input-group {
+        justify-content: center;  /* centra horizontalmente */
+        gap: 10px;                /* espacio entre input y botón */
+    }
+
+    .input-group input {
+        max-width: 250px;         /* límite de ancho */
+    }
+
+    .input-group button {
+        min-width: 120px;         /* que no quede muy chico */
+    }
 }
 
 /* 📱 Tablets y móviles medianos */

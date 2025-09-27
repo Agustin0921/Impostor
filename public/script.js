@@ -31,6 +31,11 @@ function iniciarJuego() {
     socket.emit("iniciarJuego", { codigo: codigoSala, categoria });
 }
 
+function volverASala() {
+    // Redirige directamente al lobby (index.html)
+    window.location.href = "index.html";
+}
+
 // actualizaciones de jugadores
 socket.on("actualizarJugadores", ({ jugadores, host }) => {
     const lista = jugadores.map(j => `

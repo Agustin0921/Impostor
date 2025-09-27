@@ -198,7 +198,9 @@ button:disabled { opacity: 0.5; cursor: not-allowed; }
     text-align: left;
 }
 
-.oculto { display: none; }
+.oculto { 
+    display: none !important; 
+}
 
 #rol {
     font-size: 1.2rem;

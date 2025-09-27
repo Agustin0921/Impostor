@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <title>Juego Impostor</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/styles.css">
+</head>
+<body class="fondo-impostor">
+    <div class="container">
+        <div class="container-h1">
+            <h1 class="titulo-imp">IMPOSTOR</h1>
+            <p>¡Que disfrutes con tus amigos!</p>
+        </div>
+        
+
+        <div id="menu">
+            <div class="input-group">
+                <input id="nombre" placeholder="Tu nombre">
+                <button onclick="crearSala()">Crear Sala</button>
+            </div>
+            <div class="input-group">
+                <input id="codigo" placeholder="Código de sala">
+                <button onclick="unirseSala()">Unirse</button>
+            </div>
+        </div>
+
+
+        <div id="sala" class="oculto">
+            <h2>Sala <span id="codigoSala"></span></h2>
+            <div id="jugadores"></div>
+            <!-- 🔽 Nuevo menú de categorías -->
+            <label for="categoria">Categoría:</label>
+            <select id="categoria">
+                <option value="aleatoria">Aleatoria</option>
+                <option value="Futbolista">Futbolista</option>
+                <option value="Clash Royale">Clash Royale</option>
+                <option value="Animal">Animal</option>
+                <option value="Objeto">Objeto</option>
+                <option value="Superhéroes">Superhéroes</option>
+            </select>
+            <button id="btnIniciar" class="primary oculto" onclick="iniciarJuego()">Iniciar Juego</button>
+        </div>
+
+        <div id="juego" class="oculto">
+            <h2>Tu Rol</h2>
+            <div id="rol"></div>
+        </div>
+
+        <p id="mensaje"></p>
+    </div>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/script.js"></script>
+</body>
+</html>

@@ -312,6 +312,143 @@ io.on("connection", (socket) => {
         io.to(codigo).emit("mensaje", "El juego ha comenzado. Revisen sus roles.");
     });
 
+    // =============================
+    // 🎯 SUBASTA
+    // =============================
+
+    // Crear sala de subasta
+    socket.on("crearSalaSubasta", ({ nombre }, callback) => {
+        const codigo = Math.random().toString(36).substring(2, 7).toUpperCase();
+        salas[codigo] = {
+            host: socket.id,
+            jugadores: [{ id: socket.id, nombre }],
+            subastaEnCurso: false,
+            jugadorActual: null
+        };
+        socket.join(codigo);
+        console.log(`${nombre} creó la sala de subasta ${codigo}`);
+        callback({ codigo });
+        io.to(codigo).emit("actualizarJugadores", { jugadores: salas[codigo].jugadores, host: salas[codigo].host });
+    });
+
+    // Unirse a sala de subasta
+    socket.on("unirseSalaSubasta", ({ nombre, codigo }, callback) => {
+        const sala = salas[codigo];
+        if (!sala) return callback({ error: "Sala no encontrada" });
+        if (sala.jugadores.find(j => j.nombre === nombre)) {
+            return callback({ error: "Nombre ya en uso" });
+        }
+        sala.jugadores.push({ id: socket.id, nombre });
+        socket.join(codigo);
+        console.log(`${nombre} se unió a la sala de subasta ${codigo}`);
+        callback({ ok: true });
+        io.to(codigo).emit("actualizarJugadores", { jugadores: sala.jugadores, host: sala.host });
+    });
+
+    socket.on("iniciarSubasta", ({ codigo }) => {
+    const sala = salas[codigo];
+    if (!sala) return;
+    if (socket.id !== sala.host) return;
+
+    sala.subastaEnCurso = true;
+    sala.jugadorActual = 0;
+
+    // jugadores por posición (ejemplo simplificado)
+    sala.listaJugadores = [
+        { nombre: "Silueta Arquero", silueta: "/images/silueta.png", real: "/images/arquero1.png", base: 100, posicion: "arquero", calidad: "Leyenda" },
+        { nombre: "Silueta Arquero", silueta: "/images/silueta.png", real: "/images/arquero2.png", base: 80, posicion: "arquero", calidad: "Bueno" },
+        { nombre: "Silueta Defensa", silueta: "/images/silueta.png", real: "/images/defensa1.png", base: 70, posicion: "defensa", calidad: "Muy bueno" }
+    ];
+
+    // 🔥 avisar al cliente que empezó la subasta
+    io.to(codigo).emit("subastaIniciada");
+
+    avanzarJugador(codigo);
+});
+
+function avanzarJugador(codigo) {
+    const sala = salas[codigo];
+    if (!sala) return;
+
+    if (sala.jugadorActual >= sala.listaJugadores.length) {
+        io.to(codigo).emit("subastaFinalizada");
+        return;
+    }
+
+    const jugador = sala.listaJugadores[sala.jugadorActual];
+    sala.pujas = [];
+
+    // 1️⃣ mostrar silueta del jugador
+    io.to(codigo).emit("jugadorEnSubasta", {
+        nombre: jugador.nombre,
+        imagen: jugador.silueta,
+        base: jugador.base,
+        posicion: jugador.posicion,
+        calidad: jugador.calidad
+    });
+
+    // 2️⃣ esperar 10 segundos para permitir pujas
+    setTimeout(() => {
+        // determinar ganador
+        if (sala.pujas.length === 0) {
+            io.to(codigo).emit("mensaje", "⏳ Nadie pujó por este jugador.");
+        } else {
+            const max = sala.pujas.reduce((a, b) => (a.monto > b.monto ? a : b));
+            io.to(codigo).emit("jugadorGanado", {
+                nombre: max.nombre,
+                monto: max.monto,
+                imagen: jugador.real
+            });
+        }
+
+        // 3️⃣ esperar 5 segundos mostrando al ganador con su imagen real
+        setTimeout(() => {
+            sala.jugadorActual++;
+            avanzarJugador(codigo); // pasar al siguiente jugador
+        }, 5000);
+
+    }, 10000);
+}
+
+socket.on("pujar", ({ codigo, monto }) => {
+    const sala = salas[codigo];
+    if (!sala || !sala.subastaEnCurso) return;
+
+    const jugador = sala.jugadores.find(j => j.id === socket.id);
+    if (!jugador) return;
+
+    sala.pujas.push({ id: jugador.id, nombre: jugador.nombre, monto });
+    io.to(codigo).emit("nuevaPuja", { nombre: jugador.nombre, monto });
+});
+
+    
+
+    // Retirarse de la puja
+    socket.on("retirarse", ({ codigo }) => {
+        const sala = salas[codigo];
+        if (!sala || !sala.subastaEnCurso) return;
+
+        const jugador = sala.jugadores.find(j => j.id === socket.id);
+        if (!jugador) return;
+
+        jugador.puja = null; // ya no participa
+        io.to(codigo).emit("jugadorRetirado", { nombre: jugador.nombre });
+    });
+
+    // Cuando un jugador se retira de la puja
+    socket.on("retirarse", ({ codigo }) => {
+        const sala = salas[codigo];
+        if (!sala || !sala.subastaEnCurso) return;
+
+        const jugador = sala.jugadores.find(j => j.id === socket.id);
+        if (!jugador) return;
+
+        jugador.seRetiro = true; // marcamos que se retiró
+        io.to(codigo).emit("mensajeSistema", {
+            mensaje: `${jugador.nombre} se ha retirado de la puja.`
+        });
+    });
+
     // desconexión
     socket.on("disconnect", () => {
         console.log("Desconectado:", socket.id);

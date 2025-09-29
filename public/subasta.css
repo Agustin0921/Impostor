@@ -1,0 +1,430 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
+body {
+    margin: 0;
+    padding: 0 0 40px 0;
+    min-height: 100vh;
+    width: 100%;
+    font-family: 'Montserrat', sans-serif;
+    background: url("/images/fondosubasta.png") no-repeat center center/cover;
+    color: white;
+    text-align: center;
+}
+
+.main-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap; /* para que no se salga en pantallas chicas */
+    padding: 10px 20px;
+    background: rgba(0, 0, 0, 0.397);
+}
+
+.logo {
+    margin: 0 0 0 40px;
+    width: 80px; /* ajusta según tamaño deseado */
+    height: auto;
+    cursor: pointer;
+    transition: transform 0.6s ease; /* duración y suavidad */
+}
+
+.logo:hover {
+    transform: rotate(360deg) scale(1.1); /* gira y hace zoom */
+}
+
+
+
+.nav a {
+    position: relative;
+    margin: 0 15px;
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    padding: 5px 10px;
+    border: 1px solid transparent;
+    border-radius: 5px;
+}
+
+.nav a::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    bottom: -3px;
+    width: 0;
+    height: 2px;
+    background: #00ff99;
+    transition: all 0.3s ease;
+    transform: translateX(-50%);
+}
+
+.nav a:hover::after {
+    width: 100%;
+}
+
+
+
+
+
+
+.titulo {
+    font-size: 8rem;
+    margin: 100px 0 0;
+    text-shadow: 2px 2px 10px black;
+}
+
+.subtitulo {
+    font-size: 2rem;
+    margin-top: -10px;
+    margin-bottom: 40px;
+    text-shadow: 1px 1px 8px black;
+}
+
+.oculto {
+    display: none !important;
+}
+
+#menu, #sala, #subasta {
+    margin-top: 20px;
+}
+
+#btnIniciar {
+    display: block;
+    margin: 20px auto;
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #1eb119, #06ad00);
+    border: none;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 1.2rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+#btnIniciar:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 12px rgba(39, 167, 27, 0.7);
+}
+
+.input-group {
+    display: flex;
+    gap: 10px;
+    margin: 10px 0;
+    justify-content: center; /* centra horizontal */
+    align-items: center;     /* centra vertical */
+}
+
+.input-group input {
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    width: 200px;       /* tamaño fijo */
+    max-width: 100%;    /* que no rompa en pantallas chicas */
+    box-sizing: border-box;
+}   
+
+.input-group button {
+    padding: 10px 15px;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    background: rgb(0, 58, 0);
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.input-group button:hover {
+    background: rgba(0, 58, 0, 0.459);
+    border: 1px solid rgb(0, 141, 0);
+    color: rgb(9, 197, 9);
+}
+
+#jugadores {
+    list-style: none;
+    padding: 0;
+    margin: 15px 0;
+}
+
+#jugadores li {
+    padding: 8px;
+    margin-bottom: 5px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 6px;
+}
+
+#jugadores,
+#subasta {
+  max-width: 500px;   /* ancho máximo */
+  margin: 0 auto;     /* los centra horizontalmente */
+}
+
+/* ========================= */
+/* 🎮 Estilos de Subasta */
+/* ========================= */
+
+#subasta {
+    margin-top: 30px;
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    text-align: center;
+    min-height: 70vh;       /* ocupa el 70% de la altura de la ventana */
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* centra verticalmente */
+    align-items: center;     /* centra horizontalmente */
+    box-sizing: border-box;
+}
+
+
+.mensaje-subasta {
+    font-size: 1.2rem;
+    font-weight: bold;
+    margin-bottom: 20px;
+    color: var(--accent, #ff4c29);
+    text-shadow: 0 0 8px rgba(0,0,0,0.5);
+}
+
+.jugador-subasta {
+    margin: 20px auto;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.1); /* fondo translúcido */
+    border-radius: 10px;
+    padding: 15px;
+    max-width: 300px;
+}
+
+.jugador-subasta img {
+    width: 200px;
+    height: auto;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.jugador-subasta h3 {
+    font-size: 1.5rem;
+    color: #ff3b3b; /* rojo para destacar */
+    margin: 0;
+}
+
+#jugadorActual {
+    margin: 20px auto;
+    text-align: center;
+}
+
+#jugadorActual img {
+    max-width: 220px;
+    height: auto;
+    margin: 20px auto;     /* deja aire arriba y abajo */
+    display: block;
+}
+
+#precioInicial {
+    font-weight: bold;
+    color: gold;
+    margin: 5px 0;
+}
+
+#temporizador {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: red;
+    margin-top: 10px;
+}
+
+.controles-puja {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    flex-wrap: wrap; /* se adapta en móvil */
+}
+
+.controles-puja input {
+    padding: 10px;
+    border-radius: 6px;
+    border: none;
+    font-size: 1rem;
+    width: 150px;
+    text-align: center;
+}
+
+.controles-puja button {
+    padding: 10px 16px;
+    border-radius: 6px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.controles-puja button:hover {
+    transform: scale(1.05);
+}
+
+.controles-puja button:first-of-type {
+    background: green;
+    color: #fff;
+}
+
+.controles-puja button:last-of-type {
+    background: red;
+    color: #fff;
+}
+
+/* =============================== */
+/* 📱 Responsividad Subasta Game   */
+/* =============================== */
+
+/* Tablets (pantallas medianas) */
+@media (max-width: 1024px) {
+  #subasta {
+    min-height: 60vh;
+    padding: 15px;
+  }
+
+  #jugadorActual img {
+    max-width: 180px;
+  }
+
+  #mensajeSubasta {
+    font-size: 1.1rem;
+  }
+
+  #pujaInput {
+    width: 70%;
+    font-size: 1rem;
+  }
+
+  button {
+    font-size: 1rem;
+    padding: 8px 16px;
+  }
+}
+
+/* Teléfonos grandes (pantallas ≤ 768px) */
+@media (max-width: 768px) {
+  body {
+    padding: 10px;
+    text-align: center;
+  }
+
+  #subasta {
+    min-height: 55vh;
+    padding: 10px;
+    border-radius: 8px;
+  }
+
+  #jugadorActual img {
+    max-width: 150px;
+  }
+
+  #mensajeSubasta {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  #pujaInput {
+    width: 80%;
+    font-size: 0.95rem;
+  }
+
+  button {
+    font-size: 0.95rem;
+    padding: 6px 12px;
+    margin: 5px 0;
+    display: block;
+    width: 90%;
+    max-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+}
+
+/* Teléfonos pequeños (≤ 480px) */
+@media (max-width: 480px) {
+  #jugadorActual img {
+    max-width: 120px;
+  }
+
+  #mensajeSubasta {
+    font-size: 0.9rem;
+  }
+
+  #pujaInput {
+    width: 100%;
+    font-size: 0.85rem;
+  }
+
+  button {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
+}
+
+/* ====================== */
+/* 🌐 Responsividad NAV   */
+/* ====================== */
+.menu-toggle {
+    display: none; /* oculto en escritorio */
+    background: none;
+    border: none;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    margin-right: 20px;
+}
+
+
+@media (max-width: 768px) {
+    .menu-toggle {
+        display: block;
+    }
+
+    .nav {
+        display: none;             /* oculto por defecto */
+        flex-basis: 100%;          /* ocupa toda la fila debajo del header */
+        flex-direction: column;
+        background: rgba(0, 0, 0, 0.95);
+        text-align: center;
+        padding: 15px 0;
+    }   
+
+    .nav a {
+        display: block;
+        padding: 12px 0;
+        margin: 0;
+        font-size: 1.2rem;
+        color: white;
+        text-decoration: none;
+        width: 100%;
+    }
+
+    .nav a:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .nav.active {
+        display: flex; /* despliega el menú y empuja hacia abajo */
+    }
+
+    .titulo {
+        font-size: 4rem;
+    }
+
+    .subtitulo {
+        font-size: 1.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .titulo {
+        font-size: 2.5rem; /* aún más chico en celu */
+    }
+
+    .subtitulo {
+        font-size: 1.2rem;
+    }
+}

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subasta Futbolera</title>
+    <link rel="stylesheet" href="/subasta.css">
+</head>
+<body>
+    <header class="main-header">
+        <img src="/images/logocoati.png" class="logo">
+        <button class="menu-toggle" id="menu-toggle">☰</button>
+        <nav class="nav" id="nav">
+            <a href="#">Sala</a>
+            <a href="#"><span>Nosotros</span></a>
+            <a href="#"><span>Opina</span></a>
+            <a href="#"><span>Seguinos</span></a>
+        </nav>
+    </header>
+
+    <main class="hero">
+        <h1 class="titulo"><strong>SUBASTA</strong></h1>
+        <p class="subtitulo"><strong>FUTBOLERA</strong></p>
+
+            <!-- Vista inicial -->
+        <div id="menu">
+            <div class="input-group">
+                <input id="nombre" type="text" placeholder="Tu nombre">
+                <button type="button" onclick="crearSala()">Crear Sala</button>
+            </div>
+            <div class="input-group">
+                <input id="codigo" type="text" placeholder="Código de sala">
+                <button type="button" onclick="unirseSala()">Unirse</button>
+            </div>
+        </div>
+
+        <!-- Vista dentro de la sala -->
+        <div id="sala" class="oculto">
+            <h2>Sala: <span id="codigoSala"></span></h2>
+            <ul id="jugadores"></ul>
+            <button id="btnIniciar" class="oculto" onclick="iniciarSubasta()">Iniciar Subasta</button>
+        </div>
+
+        <!-- Vista de subasta en curso -->
+        <div id="subasta" class="oculto">
+            <h2>Subasta en curso</h2>
+            <p id="mensajeSubasta" class="mensaje-subasta">
+                Espera a que el host inicie la subasta...
+            </p>
+        
+            <!-- Imagen del jugador en subasta -->
+            <div id="jugadorActual" class="jugador-subasta">
+                <!-- Aquí cargaremos dinámicamente el jugador -->
+                <img id="imagenJugador" src="" alt="Jugador en subasta">
+                <h3 id="nombreJugador"></h3>
+                <p id="precioInicial"></p> <!-- 👈 Aquí mostramos el precio base -->
+                <p id="temporizador"></p>  <!-- 👈 Aquí mostramos la cuenta regresiva -->
+            </div>
+        
+            <!-- Controles de puja -->
+            <div class="controles-puja">
+                <input type="number" id="montoPuja" placeholder="Tu puja (€)">
+                <button onclick="pujar()">💸 Pujar</button>
+                <button onclick="retirarse()">🚪 Salir de la puja</button>
+            </div>
+            <!-- Historial de pujas -->
+            <ul id="historialPujas" class="historial-pujas"></ul>
+        </div>
+    </main>
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="/subasta.js"></script>
+</body>
+</html>

@@ -355,7 +355,7 @@ io.on("connection", (socket) => {
 
     // jugadores por posición (ejemplo simplificado)
     sala.listaJugadores = [
-        { nombre: "Silueta Arquero", silueta: "/images/silueta.png", real: "/images/arquero1.png", base: 100, posicion: "arquero", calidad: "Leyenda" },
+        { nombre: "Extremo Derecho", silueta: "/images/siluetaMessi.png", real: "/images/realMessi.png", base: 100, posicion: "arquero", calidad: "Leyenda" },
         { nombre: "Silueta Arquero", silueta: "/images/silueta.png", real: "/images/arquero2.png", base: 80, posicion: "arquero", calidad: "Bueno" },
         { nombre: "Silueta Defensa", silueta: "/images/silueta.png", real: "/images/defensa1.png", base: 70, posicion: "defensa", calidad: "Muy bueno" }
     ];

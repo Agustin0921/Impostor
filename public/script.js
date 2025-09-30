@@ -57,19 +57,32 @@ socket.on("rol", (data) => {
     const rolDiv = document.getElementById("rol");
     document.getElementById("juego").classList.remove("oculto");
 
+    let contenido = "";
     if (data.tipo === "impostor") {
-        // Cartel impostor rojo con glitch
-        rolDiv.innerHTML = `<div class="role-banner impostor">IMPOSTOR</div>`;
+        contenido = `<div class="role-banner impostor">IMPOSTOR</div>`;
     } else {
-        // Cartel inocente verde con pulso + palabra/imágen
-        rolDiv.innerHTML = `
+        contenido = `
             <div class="role-banner inocente">INOCENTE</div>
-            <div style="margin-top:15px;">
+            <div style="margin-top:10px;">
                 Tu palabra es: <span class="item">${data.palabra}</span> (${data.categoria})
             </div>
-            <img src="${data.imagen}" alt="${data.palabra}" style="margin-top:15px; max-width:200px;">
+            <img src="${data.imagen}" alt="${data.palabra}" style="margin-top:10px; max-width:150px;">
         `;
     }
+
+    // 💡 Generar tarjeta volteable
+    rolDiv.innerHTML = `
+        <div class="card" onclick="this.classList.toggle('flipped')">
+            <div class="card-inner">
+                <div class="card-front">
+                    Haz click para ver tu rol
+                </div>
+                <div class="card-back">
+                    ${contenido}
+                </div>
+            </div>
+        </div>
+    `;
 
     // 🎨 Cambiar tema según categoría
     const body = document.body;
@@ -79,6 +92,7 @@ socket.on("rol", (data) => {
     if (data.categoria === "Clash Royale") body.classList.add("clash-theme");
     if (data.categoria === "Superhéroes") body.classList.add("superheroes-theme");
 });
+
 
 // mensajes generales
 socket.on("mensaje", (msg) => {

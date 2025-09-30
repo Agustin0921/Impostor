@@ -53,15 +53,16 @@ socket.on("subastaIniciada", () => {
 });
 
 // Mostrar jugador en subasta (primero silueta, luego revelación)
-socket.on("jugadorEnSubasta", ({ nombre, imagen, precioBase }) => {
+socket.on("jugadorEnSubasta", ({ nombre, imagen, base }) => {
     const imgJugador = document.querySelector("#imagenJugador");
     const nombreJugador = document.querySelector("#nombreJugador");
     const mensaje = document.querySelector("#mensajeSubasta");
 
     if (imgJugador && nombreJugador && mensaje) {
-        // Mostrar silueta y precio base
-        imgJugador.src = "images/silueta.png";
-        nombreJugador.textContent = `${nombre} - Precio base: ${precioBase}€`;
+        // Mostrar la silueta que manda el server
+        imgJugador.src = imagen;
+        // Mostrar nombre y precio base
+        nombreJugador.textContent = `${nombre} - Precio base: ${base}€`;
         mensaje.textContent = "⏳ 10 segundos para pujar...";
 
         // Inicia temporizador de 10s
@@ -77,6 +78,7 @@ socket.on("jugadorEnSubasta", ({ nombre, imagen, precioBase }) => {
         }, 1000);
     }
 });
+
 
 // Cuando se revela el ganador
 socket.on("jugadorGanado", ({ nombre, monto, imagen }) => {
